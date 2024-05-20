@@ -32,9 +32,9 @@ export class HookFunctions {
 
 
     /* ⁡⁢⁣⁡⁢⁡⁢⁣⁣FORMATTAZIONE DA NUMERO A STRINGA NUMERICA EUROPEA⁡⁡⁡
-        IT: Questa funzione restituisce un valore numerico in un valore con formattazione numerica europea (3333.33 => 3.333,33).⁡
+    IT: Questa funzione restituisce un valore numerico in un valore con formattazione numerica europea (3333.33 => 3.333,33).⁡
     
-        ENG: This function returns a numeric value in a European numeric formatted value (3333.33 => 3.333,33).⁡
+    ENG: This function returns a numeric value in a European numeric formatted value (3333.33 => 3.333,33).⁡
     */
     formatNumberInCurrencyString(num: any) {
         let ref = this;
@@ -48,9 +48,9 @@ export class HookFunctions {
 
 
     /* ⁡⁢⁣⁡⁢⁡⁢⁣⁡⁢⁣⁣FORMATTAZIONE DA STRINGA EUROPEA A NUMERO⁡
-        IT: Questa funzione restituisce un valore con formattazione numerica europea in un valore numerico (3.333,33=> 3333.33).⁡
+    IT: Questa funzione restituisce un valore con formattazione numerica europea in un valore numerico (3.333,33=> 3333.33).⁡
     
-        ENG: This function returns a value with European numeric formatting in a numeric value (3.333,33=> 3333.33).⁡
+    ENG: This function returns a value with European numeric formatting in a numeric value (3.333,33=> 3333.33).⁡
     */
     formatCurrencyStringInNumber(numString: string) {
         return parseFloat(numString.replaceAll(".", "").replace(",", "."));
@@ -114,6 +114,36 @@ export class HookFunctions {
     }
 
 
+    /* ⁡⁢⁣⁡⁢⁣⁣OGGETTO GIA' PRESENTE IN ARRAY⁡
+        IT: Questa funzione restituisce un booleano true se un oggetto è già presente in un array
+
+        ENG: This function returns a boolean true if an object is already present in an array
+
+    */
+    isObjectInArray(obj: any , array: any[]): boolean {
+        if (!Array.isArray(array)) {
+            throw new Error('Il secondo argomento deve essere un array');
+        }
+    
+        return array.some((el: any) => {
+            let keys1 = Object.keys(el);
+            let keys2 = Object.keys(obj);
+    
+            if (keys1.length !== keys2.length) {
+                return false;
+            }
+
+            for (let key of keys1) {
+                if (el[key] !== obj[key]) {
+                    return false;
+                }
+            }
+
+            return true;
+        });
+    }
+
+
     // ⁡⁣⁣⁡⁣⁣⁡⁣⁣⁢VALIDAZIONI FORM GROUP⁡⁡
 
     /* ⁡⁢⁣⁣VALIDAZIONE FORM GROUP CON MESSAGGIO DI ERRORE OPZIONALE⁡
@@ -137,7 +167,8 @@ export class HookFunctions {
         if (form.valid) {
 
             Object.entries(form.value).forEach((el: any) => {
-                let htmlObj = formDom?.querySelector(`input[formControlName='${el[0]}']`) || formDom?.querySelector(`select[formControlName='${el[0]}']`);
+                let htmlObj = formDom?.querySelector(`input[formControlName='${el[0]}']`) || formDom?.querySelector(`select[formControlName='${el[0]}']`) || formDom?.querySelector(`ng2-completer[formControlName='${el[0]}']`)?.querySelector('input');
+
                 htmlObj?.classList.remove("border-danger");
             });
 
@@ -147,7 +178,8 @@ export class HookFunctions {
             let erroreDettaglio = "<strong>Controllare i seguenti campi obbligatori:</strong><br>";
 
             Object.entries(form.value).forEach((el: any) => {
-                let htmlObj = formDom?.querySelector(`input[formControlName='${el[0]}']`) || formDom?.querySelector(`select[formControlName='${el[0]}']`);
+
+                let htmlObj = formDom?.querySelector(`input[formControlName='${el[0]}']`) || formDom?.querySelector(`select[formControlName='${el[0]}']`) || formDom?.querySelector(`ng2-completer[formControlName='${el[0]}']`)?.querySelector('input');
 
                 if (!form.get(el[0])?.valid) {
                     let nameError = htmlObj?.getAttribute("placeholder") != null ? htmlObj?.getAttribute("placeholder") : el[0];
@@ -171,7 +203,7 @@ export class HookFunctions {
 
 
     /* ⁡⁢⁡⁢⁡⁢⁣⁣AGGIUNTA VALIDAZIONE SPAZI VUOTI PER FORM CONTROL⁡
-        IT: Questo metodo aggiunge un controllo ad un formControl restituendo un errore nel caso in cui i valori fossero soli spazi bianchi
+    IT: Questo metodo aggiunge un controllo ad un formControl restituendo un errore nel caso in cui i valori fossero soli spazi bianchi
 
         ENG: This method adds a control to a form control returning an error if the values ​​were only whitespace.⁡
     */
