@@ -57,6 +57,16 @@ export class HookFunctions {
     }
 
 
+    /* ⁡⁢⁣⁡⁢⁡⁢⁣⁡⁢⁣⁡⁢⁣⁣FORMATTAZIONE DATA SOLO GIORNO-MESE-ANNO⁡
+        IT: Questa funzione formatta in tipo data in una stringa con solo giorno, mese e anno.⁡
+        
+        ENG: This function formats date type into a string with only day, month, and year.
+    */
+    formatDateOnlyDayMonthYear(date: any) {
+        return new Date(date).toLocaleString([], { year: "numeric", month: "2-digit", day: "2-digit" })
+    }
+
+
     /* ⁡⁢⁣⁣INSERIMENTO SOLO VALORI NUMERICI⁡
        IT: Questa funzione permette la digitazione (keypress) di soli valori numerici all'interno di un tag html input / textarea ecc..⁡
 
