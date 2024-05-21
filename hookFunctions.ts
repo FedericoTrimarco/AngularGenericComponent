@@ -32,9 +32,9 @@ export class HookFunctions {
 
 
     /* ⁡⁢⁣⁡⁢⁡⁢⁣⁣FORMATTAZIONE DA NUMERO A STRINGA NUMERICA EUROPEA⁡⁡⁡
-    IT: Questa funzione restituisce un valore numerico in un valore con formattazione numerica europea (3333.33 => 3.333,33).⁡
+        IT: Questa funzione restituisce un valore numerico in un valore con formattazione numerica europea (3333.33 => 3.333,33).⁡
     
-    ENG: This function returns a numeric value in a European numeric formatted value (3333.33 => 3.333,33).⁡
+        ENG: This function returns a numeric value in a European numeric formatted value (3333.33 => 3.333,33).⁡
     */
     formatNumberInCurrencyString(num: any) {
         let ref = this;
@@ -48,9 +48,9 @@ export class HookFunctions {
 
 
     /* ⁡⁢⁣⁡⁢⁡⁢⁣⁡⁢⁣⁣FORMATTAZIONE DA STRINGA EUROPEA A NUMERO⁡
-    IT: Questa funzione restituisce un valore con formattazione numerica europea in un valore numerico (3.333,33=> 3333.33).⁡
+        IT: Questa funzione restituisce un valore con formattazione numerica europea in un valore numerico (3.333,33=> 3333.33).⁡
     
-    ENG: This function returns a value with European numeric formatting in a numeric value (3.333,33=> 3333.33).⁡
+        ENG: This function returns a value with European numeric formatting in a numeric value (3.333,33=> 3333.33).⁡
     */
     formatCurrencyStringInNumber(numString: string) {
         return parseFloat(numString.replaceAll(".", "").replace(",", "."));
@@ -62,8 +62,22 @@ export class HookFunctions {
         
         ENG: This function formats date type into a string with only day, month, and year.
     */
-    formatDateOnlyDayMonthYear(date: any) {
-        return new Date(date).toLocaleString([], { year: "numeric", month: "2-digit", day: "2-digit" })
+    formatDateEU(date: Date, viewHours: boolean = false) {
+
+        if ((date instanceof Date) == false) {
+            throw new Error("the 'formatDateEU' function needs a date type as its first parameter");
+        }
+
+        if(viewHours){
+
+            return date.toLocaleString([], { year: "numeric", month: "2-digit", day: "2-digit", hour: '2-digit', minute: '2-digit', second: '2-digit', });
+
+        } else {
+
+            return date.toLocaleString([], { year: "numeric", month: "2-digit", day: "2-digit" });
+
+        }
+
     }
 
 
@@ -213,7 +227,7 @@ export class HookFunctions {
 
 
     /* ⁡⁢⁡⁢⁡⁢⁣⁣AGGIUNTA VALIDAZIONE SPAZI VUOTI PER FORM CONTROL⁡
-    IT: Questo metodo aggiunge un controllo ad un formControl restituendo un errore nel caso in cui i valori fossero soli spazi bianchi
+        IT: Questo metodo aggiunge un controllo ad un formControl restituendo un errore nel caso in cui i valori fossero soli spazi bianchi
 
         ENG: This method adds a control to a form control returning an error if the values ​​were only whitespace.⁡
     */
