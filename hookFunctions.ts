@@ -7,8 +7,8 @@ export class HookFunctions {
 
     /** ⁡⁣⁣⁢𝗜𝗡𝗦𝗧𝗥𝗨𝗖𝗧𝗜𝗢𝗡𝗦​⁡ 
      * 
-     * 𝗜𝗧:  QUESTO FILE E' STATO CREATO UTILIZZANDO UNA VERSIONE DI NODE 18.13.0⁡ E ANGULAR 17.3.1,
-     * 𝗘𝗡𝗚: THIS FILE WAS CREATED USING A VERSION OF NODE 18.13.0⁡ AND ANGULAR 17.3.1
+     *      𝗜𝗧:  QUESTO FILE E' STATO CREATO UTILIZZANDO UNA VERSIONE DI NODE 18.13.0⁡ E ANGULAR 17.3.1,
+     *      𝗘𝗡𝗚: THIS FILE WAS CREATED USING A VERSION OF NODE 18.13.0⁡ AND ANGULAR 17.3.1
      * 
      *  ⁡⁢⁣⁣1)⁡
      *      ⁡⁣⁢⁡⁢⁢𝗜𝗧⁡ : Importa il nome della classe ⁡⁣⁢⁣HookFunctions⁡ nei fornitori dei singoli componenti o ne nei fornitori di ⁡⁣⁢⁣App.component.ts⁡ .
@@ -21,8 +21,8 @@ export class HookFunctions {
      * 
      *  ⁡⁣⁣⁢CREATE NEW FUNCTION⁡ 
      * 
-     *  IT: Per tutte le nuove funzioni da voler inserire, ricordarsi di specificare il tipo di ogni parametro (stringa, numero, ecc..)
-     *  ENG: For all the new functions you want to insert, remember to specify the type of each parameter (string, number, etc.)
+     *      IT: Per tutte le nuove funzioni da voler inserire, ricordarsi di specificare il tipo di ogni parametro (stringa, numero, ecc..)
+     *      ENG: For all the new functions you want to insert, remember to specify the type of each parameter (string, number, etc.)
      * 
     */
 
@@ -32,25 +32,25 @@ export class HookFunctions {
 
 
     /* ⁡⁢⁣⁡⁢⁡⁢⁣⁣FORMATTAZIONE DA NUMERO A STRINGA NUMERICA EUROPEA⁡⁡⁡
-        IT: Questa funzione restituisce un valore numerico in un valore con formattazione numerica europea (3333.33 => 3.333,33).⁡
+    IT: Questa funzione restituisce un valore numerico in un valore con formattazione numerica europea (3333.33 => 3.333,33).⁡
     
-        ENG: This function returns a numeric value in a European numeric formatted value (3333.33 => 3.333,33).⁡
+    ENG: This function returns a numeric value in a European numeric formatted value (3333.33 => 3.333,33).⁡
     */
     formatNumberInCurrencyString(num: any) {
         let ref = this;
 
-        if(typeof(num) == "string"){
+        if (typeof (num) == "string") {
             num = ref.formatCurrencyStringInNumber(num);
         }
-        
+
         return num.toLocaleString("eu-EU", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
 
 
     /* ⁡⁢⁣⁡⁢⁡⁢⁣⁡⁢⁣⁣FORMATTAZIONE DA STRINGA EUROPEA A NUMERO⁡
-        IT: Questa funzione restituisce un valore con formattazione numerica europea in un valore numerico (3.333,33=> 3333.33).⁡
+    IT: Questa funzione restituisce un valore con formattazione numerica europea in un valore numerico (3.333,33=> 3333.33).⁡
     
-        ENG: This function returns a value with European numeric formatting in a numeric value (3.333,33=> 3333.33).⁡
+    ENG: This function returns a value with European numeric formatting in a numeric value (3.333,33=> 3333.33).⁡
     */
     formatCurrencyStringInNumber(numString: string) {
         return parseFloat(numString.replaceAll(".", "").replace(",", "."));
@@ -68,7 +68,7 @@ export class HookFunctions {
             throw new Error("the 'formatDateEU' function needs a date type as its first parameter");
         }
 
-        if(viewHours){
+        if (viewHours) {
 
             return date.toLocaleString([], { year: "numeric", month: "2-digit", day: "2-digit", hour: '2-digit', minute: '2-digit', second: '2-digit', });
 
@@ -130,7 +130,7 @@ export class HookFunctions {
             <input type="text" formControlName="name" ⁡⁢⁢⁢(change)⁡="hf.patchValueNumberByFormAndControlName(⁡⁣⁣⁢formRegister⁡, ⁡⁣⁢⁣'name'⁡)">
         </form>
     */
-    patchValueNumberByFormAndControlName(form: any, controlName: string){
+    patchValueNumberByFormAndControlName(form: any, controlName: string) {
         let ref = this;
 
         form.get(controlName)?.patchValue(ref.formatNumberInCurrencyString(form.get(controlName)?.value));
@@ -144,15 +144,15 @@ export class HookFunctions {
         ENG: This function returns a boolean true if an object is already present in an array
 
     */
-    isObjectInArray(obj: any , array: any[]): boolean {
+    isObjectInArray(obj: any, array: any[]): boolean {
         if (!Array.isArray(array)) {
             throw new Error('Il secondo argomento deve essere un array');
         }
-    
+
         return array.some((el: any) => {
             let keys1 = Object.keys(el);
             let keys2 = Object.keys(obj);
-    
+
             if (keys1.length !== keys2.length) {
                 return false;
             }
@@ -167,6 +167,35 @@ export class HookFunctions {
         });
     }
 
+
+    /* ⁡⁢⁣⁡⁢⁡⁢⁣⁣AGGREGAZIONE DATI ARRAY TRAMITE TRE CHIAVI⁡
+        IT: Questa funzione restituisce un array aggregati in cui:
+            - il secondo parametro è quello principale, tramite il quale viene fatta l'aggragazione
+            - il terzo parametro è quello che andrà a differenziare la nuova chiave value
+            - il 1uarto è la chiave dalla quale viene estrapolato il singolo valore
+
+        ENG: This function returns an array aggregated in which:
+            - the second parameter is the main one through which the aggregation is done
+            - the third parameter is the one that will differentiate the new value key
+            - the 1st quarter is the key from which the single value is extrapolated
+
+    */
+    aggregateDataByThreeKeys(data: any[], primaryKey: string, secondaryKey: string, valueKey: string): any[] {
+        let result: { [key: string]: any } = {};
+
+        data.forEach(entry => {
+            let aggregationKey = entry[primaryKey];
+
+            if (!result[aggregationKey]) {
+                result[aggregationKey] = { [primaryKey]: aggregationKey };
+            }
+
+            let structureKey = entry[secondaryKey];
+            result[aggregationKey][`value${structureKey}`] = entry[valueKey];
+        });
+
+        return Object.values(result);
+    }
 
     // ⁡⁣⁣⁡⁣⁣⁡⁣⁣⁢VALIDAZIONI FORM GROUP⁡⁡
 
@@ -227,7 +256,7 @@ export class HookFunctions {
 
 
     /* ⁡⁢⁡⁢⁡⁢⁣⁣AGGIUNTA VALIDAZIONE SPAZI VUOTI PER FORM CONTROL⁡
-        IT: Questo metodo aggiunge un controllo ad un formControl restituendo un errore nel caso in cui i valori fossero soli spazi bianchi
+    IT: Questo metodo aggiunge un controllo ad un formControl restituendo un errore nel caso in cui i valori fossero soli spazi bianchi
 
         ENG: This method adds a control to a form control returning an error if the values ​​were only whitespace.⁡
     */
