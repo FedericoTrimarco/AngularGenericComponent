@@ -220,7 +220,7 @@ export class HookFunctions {
         if (form.valid) {
 
             Object.entries(form.value).forEach((el: any) => {
-                let htmlObj = formDom?.querySelector(`input[formControlName='${el[0]}']`) || formDom?.querySelector(`select[formControlName='${el[0]}']`) || formDom?.querySelector(`ng2-completer[formControlName='${el[0]}']`)?.querySelector('input');
+                let htmlObj = formDom?.querySelector(`input[formControlName='${el[0]}']`) || formDom?.querySelector(`select[formControlName='${el[0]}']`) || formDom?.querySelector(`textarea[formControlName='${el[0]}']`) || formDom?.querySelector(`ng2-completer[formControlName='${el[0]}']`)?.querySelector('input');
 
                 htmlObj?.classList.remove("border-danger");
             });
@@ -232,7 +232,7 @@ export class HookFunctions {
 
             Object.entries(form.value).forEach((el: any) => {
 
-                let htmlObj = formDom?.querySelector(`input[formControlName='${el[0]}']`) || formDom?.querySelector(`select[formControlName='${el[0]}']`) || formDom?.querySelector(`ng2-completer[formControlName='${el[0]}']`)?.querySelector('input');
+                let htmlObj = formDom?.querySelector(`input[formControlName='${el[0]}']`) || formDom?.querySelector(`select[formControlName='${el[0]}']`) || formDom?.querySelector(`textarea[formControlName='${el[0]}']`) || formDom?.querySelector(`ng2-completer[formControlName='${el[0]}']`)?.querySelector('input');
 
                 if (!form.get(el[0])?.valid) {
                     let nameError = htmlObj?.getAttribute("placeholder") != null ? htmlObj?.getAttribute("placeholder") : el[0];
@@ -266,7 +266,7 @@ export class HookFunctions {
 
 
     /* ⁡⁢⁡⁢⁡⁢⁡⁢⁣⁡⁢⁣⁣CONTROLLO VALIDAZIONE CAMPO OBBLIGATORIO NON COMPILATO⁡⁡
-        IT: Questo metodo restituisce un boolean = false se il formControl non è stato compilato o se è stato compilato con campi vuoti.
+        IT: Questo metodo restituisce un boolean = true se il formControl non è stato compilato o se è stato compilato con campi vuoti.
 
         ENG: This method returns a boolean = true if the formControl was not populated or if it was populated with empty fields.⁡
         */
@@ -285,7 +285,7 @@ export class HookFunctions {
 
 
     /* ⁡⁢⁡⁢⁡⁢⁡⁢⁣⁡⁢⁣⁣CONTROLLO VALIDAZIONE CAMPO EMAIL⁡⁡
-        IT: Questo metodo restituisce un boolean = false se il formControl non è stato compilato con un tipo email.
+        IT: Questo metodo restituisce un boolean = true se il formControl non è stato compilato con un tipo email.
         
         ENG: This method returns a boolean = true if the formControl was not populated with a email type.⁡
     */
@@ -304,7 +304,7 @@ export class HookFunctions {
 
 
     /* ⁡⁢⁡⁢⁡⁢⁡⁢⁣⁡⁢⁣⁣CONTROLLO VALIDAZIONE CAMPO MAXLENGTH⁡
-        IT: Questo metodo restituisce un boolean = false se il formControl ha superato la sua massima lunghezza.
+        IT: Questo metodo restituisce un boolean = true se il formControl ha superato la sua massima lunghezza.
 
         ENG: This method returns a boolean = true if the formControl has exceeded its maxlength .⁡
     */
