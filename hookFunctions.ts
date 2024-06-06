@@ -99,7 +99,7 @@ export class HookFunctions {
 
        ENG: This function allows you to scroll from top to bottom (or vice versa) of a container in the HTML⁡⁡
    */
-    scrollChatBoxBottom(idContainer: string, topOrBottom: string) {
+    scrollContainerHtml(idContainer: string, topOrBottom: string) {
 
         if (document.getElementById(idContainer) != null) {
             let containerRef2 = document.getElementById(idContainer);
