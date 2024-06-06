@@ -94,6 +94,30 @@ export class HookFunctions {
 
     }
 
+    /* ⁡⁢⁡⁢⁣⁣SCROLL CONTAINER HTML⁡
+       IT: Questa funzione permette lo scroll da sopra a sotto (o viceverse) di un container nell'html⁡
+
+       ENG: This function allows you to scroll from top to bottom (or vice versa) of a container in the HTML⁡⁡
+   */
+    scrollChatBoxBottom(idContainer: string, topOrBottom: string) {
+
+        if (document.getElementById(idContainer) != null) {
+            let containerRef2 = document.getElementById(idContainer);
+
+            setTimeout(() => {
+                if (containerRef2 != null) {
+                    if(topOrBottom === "bottom"){
+                        containerRef2.scrollTop += containerRef2.scrollHeight;
+                    } else if(topOrBottom === "top"){
+                        containerRef2.scrollTop -= containerRef2.scrollHeight;
+                    } else {
+                        throw new Error("use 'top' or 'bottom' for topOrBottom parameter.");
+                    }
+                }
+            }, 600);
+        }
+    }
+
 
     /* ⁡⁢⁡⁢⁣⁣GENERAZIONE LISTA NUMERICA DA PUNTO (A) AD UN PUNTO (B)⁡⁡
         IT: Questa funzione permette la generazione di un array di numeri specificandone il punto A e il punto B. Opzionalmente è anche possibile invertire l'ordine degli elementi⁡.
