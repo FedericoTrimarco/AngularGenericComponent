@@ -114,7 +114,7 @@ export class HookFunctions {
                         throw new Error("use 'top' or 'bottom' for topOrBottom parameter.");
                     }
                 }
-            }, 600);
+            }, 800);
         }
     }
 
