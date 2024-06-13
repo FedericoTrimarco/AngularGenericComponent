@@ -1,6 +1,8 @@
 import { Injectable } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 import { NewModalService } from "./new-modal/new-modal.service";
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 @Injectable()
 export class HookFunctions {
@@ -106,9 +108,9 @@ export class HookFunctions {
 
             setTimeout(() => {
                 if (containerRef2 != null) {
-                    if(topOrBottom === "bottom"){
+                    if (topOrBottom === "bottom") {
                         containerRef2.scrollTop += containerRef2.scrollHeight;
-                    } else if(topOrBottom === "top"){
+                    } else if (topOrBottom === "top") {
                         containerRef2.scrollTop -= containerRef2.scrollHeight;
                     } else {
                         throw new Error("use 'top' or 'bottom' for topOrBottom parameter.");
@@ -118,6 +120,49 @@ export class HookFunctions {
         }
     }
 
+    /* ⁡⁢⁡⁢⁣⁡⁢⁣⁡⁢⁣⁣GENERAZIONE PDF TRAMITE ID HTML⁡⁡
+        IT: Questo metodo genera un documento PDF da un elemento HTML specificato dal suo ID utilizzando le libererie jspdf html2canvas. Cattura il contenuto dell'elemento, lo converte in una tela e quindi crea un PDF multipagina, se necessario⁡.
+
+        ⁡⁢⁣⁢ATTENZIONE⁡: per utilizzare questo metodo bisognerà aver installato prima le librerie jspdf html2canvas tramite il seguente comando: 
+            ⁡⁣⁢⁣npm i jspdf, npm i html2canvas
+        
+        ENG: This method generates a PDF document from an HTML element specified by its ID using the jspdf html2canvas libraries. It captures the contents of the item, converts it to a canvas, and then creates a multipage PDF if necessary.⁡
+
+        ⁡⁢⁣⁢ATTENTION⁡: to use this method you must have first installed the jspdf html2canvas libraries using the following command: 
+            ⁡⁣⁢⁣npm i jspdf npm i html2canvas
+    */
+    generatePdfByIdHtml(elementId: string, documentName: string = "Document"): void {
+        const data = document.getElementById(elementId);
+
+        if (data) {
+            html2canvas(data, { scale: 2 }).then(canvas => {
+                const imgWidth = 210;
+                const imgHeight = canvas.height * imgWidth / canvas.width;
+                const pdf = new jsPDF('p', 'mm', 'a4');
+
+                let position = 0;
+                const pageHeight = pdf.internal.pageSize.height;
+
+                while (position < imgHeight) {
+                    if (position > 0) {
+                        pdf.addPage();
+                    }
+
+                    let heightLeft = canvas.height - position;
+                    let heightToAdd = Math.min(heightLeft, pageHeight);
+
+                    pdf.addImage(canvas, 'PNG', 0, -position, imgWidth, imgHeight, undefined, 'FAST');
+                    position += heightToAdd;
+                }
+
+                pdf.save(`${documentName}.pdf`);
+            }).catch(error => {
+                console.error('Errore durante la generazione del PDF:', error);
+            });
+        } else {
+            console.error(`Elemento con ID ${elementId} non trovato!`);
+        }
+    }
 
     /* ⁡⁢⁡⁢⁣⁣GENERAZIONE LISTA NUMERICA DA PUNTO (A) AD UN PUNTO (B)⁡⁡
         IT: Questa funzione permette la generazione di un array di numeri specificandone il punto A e il punto B. Opzionalmente è anche possibile invertire l'ordine degli elementi⁡.
@@ -159,6 +204,24 @@ export class HookFunctions {
 
         form.get(controlName)?.patchValue(ref.formatNumberInCurrencyString(form.get(controlName)?.value));
 
+    }
+
+    /* ⁡⁢⁣⁣FORMATTAZIONE CAMEL-CASE IN TITLE⁡
+        IT: questa funzione converte una stringa camelCase in una stringa Title Case aggiungendo spazi prima di ogni lettera maiuscola e rendendo maiuscola la prima lettera di ogni parola.
+
+        ENG: this function converts a camelCase string into a Title Case string by adding spaces before each uppercase letter and capitalizing the first letter of each word.
+    */
+    camelCaseToTitleCase(str: string) {
+        // Aggiungi uno spazio prima di ogni lettera maiuscola
+        let result = str.replace(/([A-Z])/g, ' $1');
+        
+        // Converte la prima lettera di ogni parola in maiuscolo
+        result = result.replace(/\b\w/g, (letter) => {
+            return letter.toUpperCase();
+        });
+        
+        // Rimuove eventuali spazi iniziali e finali
+        return result.trim();
     }
 
 
@@ -259,7 +322,7 @@ export class HookFunctions {
                 let htmlObj = formDom?.querySelector(`input[formControlName='${el[0]}']`) || formDom?.querySelector(`select[formControlName='${el[0]}']`) || formDom?.querySelector(`textarea[formControlName='${el[0]}']`) || formDom?.querySelector(`ng2-completer[formControlName='${el[0]}']`)?.querySelector('input');
 
                 if (!form.get(el[0])?.valid) {
-                    let nameError = htmlObj?.getAttribute("placeholder") != null ? htmlObj?.getAttribute("placeholder") : el[0];
+                    let nameError = htmlObj?.getAttribute("placeholder") != null ? htmlObj?.getAttribute("placeholder") : ref.camelCaseToTitleCase(el[0]);
 
                     htmlObj?.classList.add("border-danger");
                     erroreDettaglio += `- ${nameError}<br>`;
@@ -293,7 +356,7 @@ export class HookFunctions {
         IT: Questo metodo restituisce un boolean = true se il formControl non è stato compilato o se è stato compilato con campi vuoti.
 
         ENG: This method returns a boolean = true if the formControl was not populated or if it was populated with empty fields.⁡
-        */
+    */
     isValidRequired(form: any, controlName: string) {
 
         if (form.controls[controlName].errors != null && (form.controls[controlName].errors.required || form.controls[controlName].errors.whitespace)) {
