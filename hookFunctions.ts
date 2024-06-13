@@ -13,7 +13,7 @@ export class HookFunctions {
      *      𝗘𝗡𝗚: THIS FILE WAS CREATED USING A VERSION OF NODE 18.13.0⁡ AND ANGULAR 17.3.1
      * 
      *  ⁡⁢⁣⁣1)⁡
-     *      ⁡⁣⁢⁡⁢⁢𝗜𝗧⁡ : Importa il nome della classe ⁡⁣⁢⁣HookFunctions⁡ nei fornitori dei singoli componenti o ne nei fornitori di ⁡⁣⁢⁣App.component.ts⁡ .
+     *      ⁡⁣⁢⁡⁢⁢𝗜𝗧⁡ : Importa il nome della classe ⁡⁣⁢⁣HookFunctions⁡ nei providers dei singoli componenti o ne nei providers di ⁡⁣⁢⁣App.component.ts⁡ .
      *      𝗘𝗡𝗚: Import the name of the ⁡⁣⁢⁣HookFunctions⁡ class into the providers of the individual components or ⁡⁣⁢⁣into⁡ the providers of ⁡⁣⁢⁣App.component.ts⁡ .
      * 
      *  ⁡⁢⁣⁣2)⁡
